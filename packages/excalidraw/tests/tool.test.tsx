@@ -359,6 +359,29 @@ describe("toolbar", () => {
       document.querySelector(".App-toolbar__extra-tools-trigger")!,
     );
 
+  it("places the eraser after selection and before the drawing tools", async () => {
+    const { container } = await render(<Excalidraw />);
+    const tools = container.querySelectorAll(
+      '.App-toolbar [data-testid^="toolbar-"]:not([data-testid="toolbar-lock"])',
+    );
+
+    expect(
+      Array.from(tools, (tool) => tool.getAttribute("data-testid")),
+    ).toEqual([
+      "toolbar-hand",
+      "toolbar-selection",
+      "toolbar-eraser",
+      "toolbar-rectangle",
+      "toolbar-diamond",
+      "toolbar-ellipse",
+      "toolbar-arrow",
+      "toolbar-line",
+      "toolbar-freedraw",
+      "toolbar-text",
+      "toolbar-stickynote",
+    ]);
+  });
+
   it("keeps the image tool in the extra-tools menu", async () => {
     await render(<Excalidraw />);
     expect(queryTool("image")).toBe(null);
