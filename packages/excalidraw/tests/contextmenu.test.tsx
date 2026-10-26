@@ -87,6 +87,9 @@ describe("contextMenu element", () => {
       clientY: 1,
     });
     const contextMenu = UI.queryContextMenu();
+    expect(
+      contextMenu?.querySelector('li[data-testid="duplicateSelection"]'),
+    ).toBeNull();
     const expectedShortcutNames: ShortcutName[] = [
       "paste",
       "selectAll",
@@ -122,30 +125,29 @@ describe("contextMenu element", () => {
       "cut",
       "copy",
       "paste",
+      "duplicateSelection",
       "wrapSelectionInFrame",
       "copyStyles",
       "pasteStyles",
-      "deleteSelectedElements",
       "addToLibrary",
-      "flipHorizontal",
-      "flipVertical",
       "sendBackward",
       "bringForward",
       "sendToBack",
       "bringToFront",
-      "duplicateSelection",
+      "flipHorizontal",
+      "flipVertical",
       "hyperlink",
       "copyElementLink",
       "toggleElementLock",
+      "deleteSelectedElements",
     ];
 
     expect(contextMenu).not.toBeNull();
-    expect(contextMenuOptions?.length).toBe(expectedContextMenuItems.length);
-    expectedContextMenuItems.forEach((item) => {
-      expect(
-        contextMenu?.querySelector(`li[data-testid="${item}"]`),
-      ).not.toBeNull();
-    });
+    expect(
+      Array.from(contextMenuOptions ?? [], (item) =>
+        item.getAttribute("data-testid"),
+      ),
+    ).toEqual(expectedContextMenuItems);
   });
 
   it("shows context menu for element", () => {
